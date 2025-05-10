@@ -52,6 +52,12 @@ export default function TariffMeter() {
     setStep(4);
   };
 
+  const shareOnTwitter = () => {
+    const tweet = `I just paid $${result.total.toFixed(2)} in emotional tariffs for dealing with ${result.relationship} while feeling ${result.emotion}. What’s your toll? 🧾 #TariffTown`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
+    window.open(url, '_blank');
+  };
+
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto', fontFamily: 'monospace' }}>
       {step === 1 && (
@@ -112,7 +118,8 @@ Note: Payment accepted in sleepless nights or long sighs.
           `}
           <div style={{ marginTop: '1rem' }}>
             <button onClick={() => setStep(1)} style={{ marginRight: '1rem' }}>Appeal the Fee</button>
-            <button onClick={handlePay}>Pay and Proceed to Toll Booth</button>
+            <button onClick={handlePay} style={{ marginRight: '1rem' }}>Pay and Proceed to Toll Booth</button>
+            <button onClick={shareOnTwitter}>📣 Share on Twitter</button>
           </div>
         </div>
       )}
@@ -136,6 +143,13 @@ Note: Payment accepted in sleepless nights or long sighs.
             <img src="https://cdn.shopify.com/s/files/1/0737/4245/0929/files/ChatGPT_Image_May_7_2025_08_44_44_PM.png?v=1746853894" alt="Comic Panel 3" style={{ width: '100%', borderRadius: '12px' }} />
             <p style={{ fontStyle: 'italic', textAlign: 'center' }}>“Tears cost extra after 6 PM.”</p>
           </div>
+
+          {(result.relationship === "Politician" && result.emotion === "Guilt-Ridden") && (
+            <div style={{ marginBottom: '2rem' }}>
+              <img src="https://cdn.shopify.com/s/files/1/0737/4245/0929/files/ChatGPT_Bonus_Panel_Politician_Guilt.png?v=1746959999" alt="Bonus Panel" style={{ width: '100%', borderRadius: '12px' }} />
+              <p style={{ fontStyle: 'italic', textAlign: 'center' }}>“You voted for this. Emotionally AND literally.”</p>
+            </div>
+          )}
 
           <div style={{ textAlign: 'center' }}>
             <button onClick={() => setStep(1)} style={{ margin: '1rem', padding: '0.75rem 1.5rem' }}>🧾 Start Over</button>
