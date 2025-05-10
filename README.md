@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function TariffMeter() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => 1);
   const [relationship, setRelationship] = useState("");
   const [emotion, setEmotion] = useState("");
   const [result, setResult] = useState(null);
@@ -60,13 +60,30 @@ export default function TariffMeter() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto', fontFamily: 'monospace' }}>
+      <style>{`
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.03); }
+          100% { transform: scale(1); }
+        }
+        .tariff-sign {
+          border-radius: 12px;
+          transition: transform 0.3s ease;
+        }
+        .tariff-sign:hover {
+          animation: pulse 1s ease infinite;
+          cursor: pointer;
+        }
+      `}</style>
+
       {step === 1 && (
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <a href="#" onClick={() => setStep(2)} style={{ textDecoration: 'none', display: 'inline-block' }}>
             <img
               src="https://cdn.shopify.com/s/files/1/0737/4245/0929/files/ChatGPT_Image_May_9_2025_09_18_53_PM.png?v=1746850757"
               alt="Tariff Town Sign"
-              style={{ maxWidth: '100%', borderRadius: '12px' }}
+              className="tariff-sign"
+              style={{ maxWidth: '100%' }}
             />
             <div style={{ marginTop: '10px', fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>
               👇 Click the sign to enter Tariff Town
