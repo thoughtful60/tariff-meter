@@ -8,7 +8,6 @@ export default function TariffMeter() {
 
   const handleGenerate = () => {
     const baseFee = 100;
-
     const tariffs = {
       "Lover (Ex)": 320,
       "Family": 80,
@@ -32,22 +31,35 @@ export default function TariffMeter() {
       "Emotionally Unavailable": 200,
       "Pet-Deprived": 80
     };
-
     const tariffPercentage = (tariffs[relationship] || 0) + (emotionCharges[emotion] || 0);
     const emotionalFee = (baseFee * tariffPercentage) / 100;
     const total = baseFee + emotionalFee;
-
     setResult({ relationship, emotion, baseFee, tariffPercentage, emotionalFee, total });
-    setStep(3);
-  };
-
-  const handlePay = () => {
     setStep(4);
   };
 
-  const shareOnTwitter = () => {
-    const tweet = `I just paid $${result.total.toFixed(2)} in emotional tariffs for dealing with ${result.relationship} while feeling ${result.emotion}. What’s your toll? 🧾 #TariffTown`;
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
+  const handlePay = () => {
+    setStep(5);
+  };
+
+  const shareText = (platform) => {
+    const text = `I just paid $${result.total.toFixed(2)} in emotional tariffs for dealing with ${result.relationship} while feeling ${result.emotion}. What’s your toll? 🧾 #TariffTown`;
+    let url = "";
+    const encoded = encodeURIComponent(text);
+    switch (platform) {
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encoded}`;
+        break;
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=https://tariff-meter.vercel.app&quote=${encoded}`;
+        break;
+      case 'instagram':
+        alert('Instagram sharing must be done through the app. Copy and paste your receipt manually.');
+        return;
+      case 'tiktok':
+        alert('TikTok sharing must be done through the app. Take a screenshot and share your emotional debt.');
+        return;
+    }
     window.open(url, '_blank');
   };
 
@@ -144,7 +156,10 @@ Note: Payment accepted in sleepless nights or long sighs.
           <div style={{ marginTop: '1rem' }}>
             <button onClick={() => setStep(1)} style={{ marginRight: '1rem' }}>Appeal the Fee</button>
             <button onClick={handlePay} style={{ marginRight: '1rem' }}>Pay and Proceed to Toll Booth</button>
-            <button onClick={shareOnTwitter}>📣 Share on Twitter</button>
+            <button onClick={() => shareText('twitter')}>🐦 Twitter</button>
+            <button onClick={() => shareText('facebook')}>📘 Facebook</button>
+            <button onClick={() => shareText('instagram')}>📸 Instagram</button>
+            <button onClick={() => shareText('tiktok')}>🎵 TikTok</button>
           </div>
         </div>
       )}
